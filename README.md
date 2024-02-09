@@ -1,2 +1,2 @@
-# solana_bootcamp
+# solana bootcamp
 Bootcamp Solana Heavy Duty Builders
