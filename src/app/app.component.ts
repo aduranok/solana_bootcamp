@@ -17,7 +17,7 @@ import { ShyftApiService } from './shyft-api.service';
         <hd-wallet-multi-button></hd-wallet-multi-button>
       </div>
       @if (account()) {
-        <div>wrwerwe</div>
+        <div>datos</div>
       }
     </header>
   `,
