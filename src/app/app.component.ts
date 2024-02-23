@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { injectPublicKey } from '@heavy-duty/wallet-adapter';
 import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-material';
+import { computedAsync } from 'ngxtension/computed-async';
+import { ShyftApiService } from './shyft-api.service';
 
 @Component({
   standalone: true,
@@ -30,5 +33,10 @@ import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-materia
   `,
 })
 export class AppComponent {
-  title = 'solana';
+  private readonly _shyftApiService = inject(ShyftApiService);
+  private readonly _publicKey = injectPublicKey();
+
+  readonly balance = computedAsync(() =>
+    this._shyftApiService.getBalance(this._publicKey()?.toBase58()),
+  );
 }

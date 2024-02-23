@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCard } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { injectPublicKey } from '@heavy-duty/wallet-adapter';
+import { computedAsync } from 'ngxtension/computed-async';
+import { ShyftApiService } from './shyft-api.service';
 
 @Component({
   selector: 'bob-transactions-section',
@@ -38,4 +41,12 @@ import { MatTableModule } from '@angular/material/table';
     </mat-card>
   `,
 })
-export class TransactionsSectionComponent {}
+export class TransactionsSectionComponent {
+  private readonly _shyftApiService = inject(ShyftApiService);
+  private readonly _publicKey = injectPublicKey();
+
+  readonly displayedColumns = ['type', 'status', 'timestamp'];
+  readonly transactions = computedAsync(() =>
+    this._shyftApiService.getTransactions(this._publicKey()?.toBase58()),
+  );
+}
