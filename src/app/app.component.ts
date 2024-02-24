@@ -11,7 +11,7 @@ import { ShyftApiService } from './shyft-api.service';
   selector: 'solana-root',
   template: `
     <header class="pb-4 pt-16 relative">
-      <h1 class="text-5xl text-center mb-4">Solana transacciones.</h1>
+      <h1 class="text-5xl text-center mb-4">Solana transacciones</h1>
 
       <div class="flex justify-center absolute top-4 right-4">
         <hd-wallet-multi-button></hd-wallet-multi-button>
@@ -21,7 +21,7 @@ import { ShyftApiService } from './shyft-api.service';
         <div
           class="flex justify-center items-center gap-2 absolute top-4 left-4"
         >
-          <img src="assets/solana-logo.png" class="w-8 h-8" />
+          <img src="assets/solana-logo1.png" class="w-8 h-8" />
           <p class="font-bold">{{ balance()?.balance }}</p>
         </div>
       }
