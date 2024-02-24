@@ -17,21 +17,13 @@ import { ShyftApiService } from './shyft-api.service';
       <div class="flex justify-center mb-4">
         <hd-wallet-multi-button></hd-wallet-multi-button>
       </div>
-      @if (balance()) {
+      @if (accountsol()) {
         <div class="flex justify-left items-center gap-2 absolute top-4 left-4">
-          <img src="assets/solana-logo.png" class="w-8 h-8" />
-          <p class="font-bold">{{ balance()?.balance }}</p>
+          <img src="assets/solana-logo1.png" class="w-8 h-8" />
+          <p class="font-bold">{{ accountsol()?.balance }}</p>
         </div>
       }
 
-      @if (account()) {
-        <div
-          class="absolute top-4 left-4 flex justify-center items-center gap-2"
-        >
-          <img [src]="account()?.info?.image" class="w-8 h-8" />
-          <p class="text-xl">{{ account()?.balance }}</p>
-        </div>
-      }
       <nav>
         <ul class="flex justify-center items-center gap-4">
           <li>
@@ -56,16 +48,16 @@ export class AppComponent implements OnInit {
   //private readonly _matDialog = inject(MatDialog);
   private readonly _connectionStore = inject(ConnectionStore);
 
-  //para obertener el saldo de silly
-  readonly account = computedAsync(
-    () => this._shyftApiService.getAccount(this._publicKey()?.toBase58()),
+  //para obertener el saldo de solana
+  readonly accountsol = computedAsync(
+    () => this._shyftApiService.getAccountSol(this._publicKey()?.toBase58()),
     { requireSync: true },
   );
 
-  //para obtener el balance de solana
-  readonly balance = computedAsync(() =>
-    this._shyftApiService.getBalance(this._publicKey()?.toBase58()),
-  );
+  //para obtener el balance de la wallet
+  //readonly balance = computedAsync(() =>
+  //  this._shyftApiService.getBalance(this._publicKey()?.toBase58()),
+  //);
 
   //inicia la conexión con el endpoint de shyft relacionando la api con la que se obtiene la url para las transacciones
   ngOnInit() {

@@ -15,7 +15,7 @@ import { TransferModalComponent } from './transfer-modal.component';
       <h2 class="text-center text-3xl mb-4">Balance</h2>
 
       @if (!account()) {
-        <p class="text-center">Conecta tu Wallet para ver tu Balance.</p>
+        <p class="text-center">Conecta tu Wallet para ver tu Balance</p>
       } @else {
         <div class="flex justify-center items-center gap-2 mb-4">
           <img [src]="account()?.info?.image" class="w-16 h-16" />
