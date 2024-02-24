@@ -1,28 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatAnchor } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { WalletStore } from '@heavy-duty/wallet-adapter';
+import { ConnectionStore, WalletStore } from '@heavy-duty/wallet-adapter';
 import { HdWalletMultiButtonComponent } from '@heavy-duty/wallet-adapter-material';
 import { computedAsync } from 'ngxtension/computed-async';
 import { ShyftApiService } from './shyft-api.service';
-import { TransferModalComponent } from './transfer-modal.component';
+
 @Component({
   selector: 'bob-root',
   standalone: true,
-  imports: [
-    RouterModule,
-    HdWalletMultiButtonComponent,
-    MatAnchor,
-    TransferModalComponent,
-  ],
+  imports: [RouterModule, HdWalletMultiButtonComponent, MatAnchor],
   template: `
     <header class="py-8 relative">
-      <h1 class="text-5xl text-center mb-4">Hola, soy Bob</h1>
+      <h1 class="text-5xl text-center mb-4">Solana Wallet</h1>
       <div class="flex justify-center mb-4">
         <hd-wallet-multi-button></hd-wallet-multi-button>
       </div>
+      @if (balance()) {
+        <div class="flex justify-left items-center gap-2 absolute top-4 left-4">
+          <img src="assets/solana-logo.png" class="w-8 h-8" />
+          <p class="font-bold">{{ balance()?.balance }}</p>
+        </div>
+      }
+
       @if (account()) {
         <div
           class="absolute top-4 left-4 flex justify-center items-center gap-2"
@@ -43,27 +44,31 @@ import { TransferModalComponent } from './transfer-modal.component';
       </nav>
     </header>
 
-    <button (click)="onTransfer()">Transferir</button>
-
     <main>
       <router-outlet></router-outlet>
     </main>
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private readonly _shyftApiService = inject(ShyftApiService);
   private readonly _walletStore = inject(WalletStore);
   private readonly _publicKey = toSignal(this._walletStore.publicKey$);
-  private readonly _matDialog = inject(MatDialog);
+  //private readonly _matDialog = inject(MatDialog);
+  private readonly _connectionStore = inject(ConnectionStore);
 
+  //para obertener el saldo de silly
   readonly account = computedAsync(
     () => this._shyftApiService.getAccount(this._publicKey()?.toBase58()),
     { requireSync: true },
   );
 
-  onTransfer() {
-    //  console.log('Hola mundo!');
+  //para obtener el balance de solana
+  readonly balance = computedAsync(() =>
+    this._shyftApiService.getBalance(this._publicKey()?.toBase58()),
+  );
 
-    this._matDialog.open(TransferModalComponent);
+  //inicia la conexión con el endpoint de shyft relacionando la api con la que se obtiene la url para las transacciones
+  ngOnInit() {
+    this._connectionStore.setEndpoint(this._shyftApiService.getEndpoint());
   }
 }

@@ -27,7 +27,7 @@ export interface TransferFormPayload {
           name="memo"
           matInput
           type="text"
-          placeholder="Ejemplo: Pagar energía"
+          placeholder="Concepto del envío"
           [(ngModel)]="model.memo"
           required
           #memoControl="ngModel"
