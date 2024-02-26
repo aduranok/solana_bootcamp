@@ -17,10 +17,10 @@ import { ShyftApiService } from './shyft-api.service';
       <div class="flex justify-center mb-4">
         <hd-wallet-multi-button></hd-wallet-multi-button>
       </div>
-      @if (accountsol()) {
+      @if (account()) {
         <div class="flex justify-left items-center gap-2 absolute top-4 left-4">
           <img src="assets/solana-logo1.png" class="w-8 h-8" />
-          <p class="font-bold">{{ accountsol()?.balance }}</p>
+          <p class="font-bold">{{ account()?.balance }}</p>
         </div>
       }
 
@@ -48,10 +48,14 @@ export class AppComponent implements OnInit {
   //private readonly _matDialog = inject(MatDialog);
   private readonly _connectionStore = inject(ConnectionStore);
 
-  //para obertener el saldo de solana
-  readonly accountsol = computedAsync(
-    () => this._shyftApiService.getAccountSol(this._publicKey()?.toBase58()),
-    { requireSync: true },
+  //  //para obertener el saldo de solana
+  private readonly _mintsol = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+
+  readonly account = computedAsync(() =>
+    this._shyftApiService.getAccount(
+      this._publicKey()?.toBase58(),
+      this._mintsol,
+    ),
   );
 
   //para obtener el balance de la wallet

@@ -43,8 +43,13 @@ export class BalanceSectionCommponent {
   private readonly _shyftApiService = inject(ShyftApiService);
   private readonly _publicKey = injectPublicKey();
 
+  private readonly _mintsilly = '7EYnhQoR9YM3N7UoaKRoA44Uy8JeaZV3qyouov87awMs';
+
   readonly account = computedAsync(() =>
-    this._shyftApiService.getAccount(this._publicKey()?.toBase58()),
+    this._shyftApiService.getAccount(
+      this._publicKey()?.toBase58(),
+      this._mintsilly,
+    ),
   );
 
   onTransfer() {
