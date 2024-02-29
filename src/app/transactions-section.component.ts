@@ -10,7 +10,7 @@ import { ShyftApiService } from './shyft-api.service';
   imports: [MatTableModule, MatCard],
   standalone: true,
   template: `
-    <mat-card class="w-[500px] px-4 py-8">
+    <mat-card class="w-[800px] px-4 py-8">
       <h2 class="text-center text-3xl mb-4">Historial de Transacciones</h2>
 
       @if (!transactions()) {

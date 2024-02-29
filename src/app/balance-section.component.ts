@@ -11,29 +11,19 @@ import { TransferModalComponent } from './transfer-modal.component';
 @Component({
   selector: 'bob-balance-section',
   template: `
-    <mat-card class="w-[400px] px-4 py-8">
-      <h2 class="text-center text-3xl mb-4">Balance</h2>
-
-      @if (!account()) {
-        <p class="text-center">Conecta tu Wallet para ver tu Balance</p>
-      } @else {
-        <div class="flex justify-center items-center gap-2 mb-4">
-          <img [src]="account()?.info?.image" class="w-16 h-16" />
-          <p class="text-5xl font-bold">{{ account()?.balance }}</p>
-        </div>
-
-        <footer class="flex justify-center pt-4">
-          <button
-            (click)="onTransfer()"
-            type="submit"
-            mat-raised-button
-            color="primary"
-          >
-            Transferir Fondos
-          </button>
-        </footer>
-      }
-    </mat-card>
+    @if (!account()) {
+    } @else {
+      <footer class="flex justify-center">
+        <button
+          (click)="onTransfer()"
+          type="submit"
+          mat-raised-button
+          color="primary"
+        >
+          Transferir Fondos
+        </button>
+      </footer>
+    }
   `,
   imports: [MatTableModule, MatCard, TransferModalComponent, MatButton],
   standalone: true,

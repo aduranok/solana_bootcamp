@@ -10,6 +10,29 @@ export class ShyftApiService {
   private readonly _mintsol = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
   private readonly _mintsilly = '7EYnhQoR9YM3N7UoaKRoA44Uy8JeaZV3qyouov87awMs';
 
+  getAllTokens(publicKey: string | undefined | null) {
+    if (!publicKey) {
+      return of(null);
+    }
+
+    const url = new URL('https://api.shyft.to/sol/v1/wallet/all_tokens');
+
+    url.searchParams.set('network', 'mainnet-beta');
+    url.searchParams.set('wallet', publicKey);
+
+    return this._httpClient
+      .get<{
+        result: {
+          address: string;
+          balance: number;
+          info: { name: string; symbol: string; image: string };
+        }[];
+      }>(url.toString(), {
+        headers: this._header,
+      })
+      .pipe(map((response) => response.result));
+  }
+
   getEndpoint() {
     const url = new URL('https://rpc.shyft.to');
 
